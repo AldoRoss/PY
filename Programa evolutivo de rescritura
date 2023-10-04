@@ -1,0 +1,117 @@
+"""
+Desarrollado por Rosales Benuhmea Aldo
+Programa evolutivo de rescritura
+"""
+import os
+import difflib
+import tkinter as tk
+from tkinter import ttk
+
+def limpiar_terminal():
+    os.system("cls")
+
+def validar_Entrada_Numerica(entrada):
+    if entrada.isdigit():
+        entrada = int(entrada)
+    else:
+        print("Ha ingresado una letra")
+    return entrada
+
+def Ingresar_Palabra(Palabra,ListaEsp,ListaIng):
+    SignPalabra = input("Ingresa el significado:")
+    ListaEsp.append(Palabra)
+    ListaIng.append(SignPalabra)
+    return (ListaEsp,ListaIng) 
+
+def Palabra_Similar(palabraSim, ListaEsp):
+    # Encontrar las palabras más similares en la lista
+    indice_maximo = -1  # Inicializamos con un valor que no es un índice válido
+    similitud_maxima = 0
+
+    for i, palabra in enumerate(ListaEsp):
+        similitud = difflib.SequenceMatcher(None, palabraSim, palabra).ratio()
+        
+        if similitud > similitud_maxima:
+            similitud_maxima = similitud
+            indice_maximo = i
+
+    if indice_maximo != -1:
+        print(f"¿Quisiste decir'{ListaEsp[indice_maximo]}?'")
+        SiHay = 1
+    else:
+        SiHay = 0
+        print("No hay palabras parecidas.")
+        indice_maximo = -1
+    return SiHay, indice_maximo
+
+limpiar_terminal()
+
+PalabraEsp = ["carro", "casa", "perro", "tarjeta", "juego"]
+PalabraIn = ["car", "house", "dog", "card", "game"]
+
+Salida = 0
+print("Programa Evolutivo de Rescritura")
+while Salida == 0:
+    Palabra = input("Ingrese la palabra que desea traducir:")
+    try:
+        indice = PalabraEsp.index(Palabra)
+        print("la palabra significa:" + PalabraIn[indice])
+    except ValueError:
+        SiHay,  palabraCercana = (Palabra_Similar(Palabra,PalabraEsp))
+        if SiHay == 1:
+            PalabraParecida = input("Oprima 0 si desea ver esa palabra o 1 si es una nueva o 2 si la desea buscar en las palabras en ingles:")
+            PalabraParecida = validar_Entrada_Numerica(PalabraParecida)
+            if PalabraParecida == 0:
+                print("la palabra significa:" + PalabraEsp[palabraCercana])
+            elif PalabraParecida == 1:
+                (PalabraEsp,PalabraIn) = Ingresar_Palabra(Palabra,PalabraEsp,PalabraIn)
+            elif PalabraParecida == 2:
+                try:
+                    indice = PalabraIn.index(Palabra)
+                    EstaIng = input("Encontre la palabra en Ingles, oprime 0 si la quieres ver, oprime 1 si es una palabra nueva:")
+                    EstaIng = validar_Entrada_Numerica(EstaIng)
+                    if EstaIng == 0:
+                        print("la palabra esta en ingles y significa:" + PalabraEsp[indice])
+                    elif EstaIng == 1:
+                        (PalabraEsp,PalabraIn) = Ingresar_Palabra(Palabra,PalabraEsp,PalabraIn)
+                        Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+                        Salida = validar_Entrada_Numerica(Salida)
+                        
+                    else:
+                        print("no te entiendo, medicate porfa")
+                        Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+                        Salida = validar_Entrada_Numerica(Salida)
+                        
+                except ValueError:
+                    print("No encontre ninguna palabra.")
+                    Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+                    Salida = validar_Entrada_Numerica(Salida)
+                
+
+            Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+            Salida = validar_Entrada_Numerica(Salida)
+
+        else:
+            try:
+                indice = PalabraIn.index(Palabra)
+                EstaIng = input("Encontre la palabra en Ingles, oprime 0 si la quieres ver, oprime 1 si es una palabra nueva:")
+                EstaIng = validar_Entrada_Numerica(EstaIng)
+                if EstaIng == 0:
+                    print("la palabra esta en ingles y significa:" + PalabraEsp[indice])
+                elif EstaIng == 1:
+                    (PalabraEsp,PalabraIn) = Ingresar_Palabra(Palabra,PalabraEsp,PalabraIn)
+                    Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+                    Salida = validar_Entrada_Numerica(Salida)
+                    
+                else:
+                    print("no te entiendo, medicate porfa")
+                    Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+                    Salida = validar_Entrada_Numerica(Salida)
+                    
+            except ValueError:
+                (PalabraEsp,PalabraIn) = Ingresar_Palabra(Palabra,PalabraEsp,PalabraIn)
+                Salida = input("Oprima 1 si desea salir, oprima 0 si desea probar otra palabra:")
+                Salida = validar_Entrada_Numerica(Salida)
+
+print(PalabraEsp)
+
