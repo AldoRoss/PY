@@ -90,7 +90,7 @@ import tkinter as tk
 def mostrar_ventana():
     # Crear la ventana principal
     ventana_principal = tk.Tk()
-    ventana_principal.title("Interfaz con Cuadros de Texto")
+    ventana_principal.title("Traductor")
     ventana_principal.geometry("550x600")  # Aumentamos la altura de la ventana
 
     def Dale_bogeto():
